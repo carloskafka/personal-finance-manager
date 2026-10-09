@@ -23,6 +23,15 @@ class TestLowBalanceAlertObserver(unittest.TestCase):
         self.balance.apply_transaction(Transaction(60, TransactionCategory.EXPENSE))
         self.assertTrue(observer.alert_triggered)
 
+        self.balance.apply_transaction(Transaction(100, TransactionCategory.INCOME))
+        self.assertFalse(observer.alert_triggered)
+
+        self.balance.apply_transaction(Transaction(60, TransactionCategory.EXPENSE))
+        self.assertFalse(observer.alert_triggered)
+
+        self.balance.apply_transaction(Transaction(60, TransactionCategory.EXPENSE))
+        self.assertTrue(observer.alert_triggered)
+
     def test_low_balance_alert_observer_prints_when_threshold_is_crossed(self):
         observer = LowBalanceAlertObserver(threshold=50)
         self.balance.register_observer(observer)
@@ -46,15 +55,6 @@ class TestLowBalanceAlertObserver(unittest.TestCase):
             )
 
         self.assertIn("$75", output.getvalue())
-
-        self.balance.apply_transaction(Transaction(100, TransactionCategory.INCOME))
-        self.assertFalse(observer.alert_triggered)
-
-        self.balance.apply_transaction(Transaction(60, TransactionCategory.EXPENSE))
-        self.assertFalse(observer.alert_triggered)
-        
-        self.balance.apply_transaction(Transaction(60, TransactionCategory.EXPENSE))
-        self.assertTrue(observer.alert_triggered)
 
 if __name__ == "__main__":
     unittest.main()
