@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import Mock
 from balance.balance import Balance
 from transaction.transaction import Transaction
 from transaction.transaction_category import TransactionCategory
@@ -8,6 +9,7 @@ class TestBalance(unittest.TestCase):
     def setUp(self):
         self.balance = Balance.get_instance()
         self.balance.reset()
+        self.balance.clear_observers()
 
     def test_initial_balance(self):
         self.assertEqual(self.balance.get_balance(), 0.0)
@@ -47,6 +49,24 @@ class TestBalance(unittest.TestCase):
         self.balance.add_expense(50)
         self.balance.reset()
         self.assertEqual(self.balance.get_balance(), 0.0)
+
+    def test_registered_observer_receives_balance_changes(self):
+        observer = Mock()
+        self.balance.register_observer(observer)
+        transaction = Transaction(100, TransactionCategory.INCOME)
+
+        self.balance.apply_transaction(transaction)
+
+        observer.update.assert_called_once_with(100.0, transaction)
+
+    def test_observer_can_be_unregistered(self):
+        observer = Mock()
+        self.balance.register_observer(observer)
+        self.balance.unregister_observer(observer)
+
+        self.balance.add_income(100)
+
+        observer.update.assert_not_called()
 
 if __name__ == "__main__":
     unittest.main()
