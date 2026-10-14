@@ -48,6 +48,13 @@ observers, and command history:
 python -m unittest discover -v
 ```
 
+To check PEP 8 formatting, install `pycodestyle` and run:
+
+```bash
+python -m pip install pycodestyle
+python -m pycodestyle .
+```
+
 ## Reflection
 
 I chose Command as the additional pattern because applying financial
