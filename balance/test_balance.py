@@ -4,6 +4,7 @@ from balance.balance import Balance
 from transaction.transaction import Transaction
 from transaction.transaction_category import TransactionCategory
 
+
 class TestBalance(unittest.TestCase):
 
     def setUp(self):
@@ -67,6 +68,7 @@ class TestBalance(unittest.TestCase):
         self.balance.add_income(100)
 
         observer.update.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()

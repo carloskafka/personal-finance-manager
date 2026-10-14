@@ -2,6 +2,7 @@ import unittest
 from transaction.transaction import Transaction
 from transaction.transaction_category import TransactionCategory
 
+
 class TestTransaction(unittest.TestCase):
 
     def test_transaction_creation(self):
@@ -26,6 +27,7 @@ class TestTransaction(unittest.TestCase):
         expense = Transaction(20, TransactionCategory.EXPENSE)
 
         self.assertNotEqual(income, expense)
+
 
 if __name__ == "__main__":
     unittest.main()
