@@ -15,7 +15,8 @@ class PrintObserver(IBalanceObserver):
         """Print balance update message."""
         print(
             f"Balance updated: ${balance:.2f} "
-            f"after {transaction.category.name.lower()} of ${transaction.amount:.2f}"
+            f"after {transaction.category.name.lower()} "
+            f"of ${transaction.amount:.2f}"
         )
 
 

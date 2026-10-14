@@ -40,7 +40,9 @@ class Balance:
 
     def add_expense(self, amount):
         """Subtract expense from the balance."""
-        self.apply_transaction(Transaction(amount, TransactionCategory.EXPENSE))
+        self.apply_transaction(
+            Transaction(amount, TransactionCategory.EXPENSE)
+        )
 
     def apply_transaction(self, transaction):
         """
@@ -50,7 +52,9 @@ class Balance:
             transaction (Transaction): The transaction to apply.
         """
         if not isinstance(transaction.category, TransactionCategory):
-            raise ValueError("transaction category must be a TransactionCategory")
+            raise ValueError(
+                "transaction category must be a TransactionCategory"
+            )
         self._validate_amount(transaction.amount)
 
         if transaction.category is TransactionCategory.INCOME:
@@ -58,7 +62,10 @@ class Balance:
         elif transaction.category is TransactionCategory.EXPENSE:
             self._balance -= transaction.amount
         else:
-            message = f"unsupported transaction category: {transaction.category}"
+            message = (
+                "unsupported transaction category: "
+                f"{transaction.category}"
+            )
             raise ValueError(message)
 
         self._notify_observers(transaction)
@@ -97,4 +104,6 @@ class Balance:
             or not isfinite(amount)
             or amount < 0
         ):
-            raise ValueError("transaction amount must be a finite non-negative number")
+            raise ValueError(
+                "transaction amount must be a finite non-negative number"
+            )
